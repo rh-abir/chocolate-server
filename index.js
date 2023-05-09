@@ -46,6 +46,26 @@ async function run() {
       res.send(result);
     });
 
+    app.put('/updatechoco/:id', async(req, res) => {
+      const id = req.params.id;
+      const body = req.body;
+      const filter = {_id: new ObjectId(id)}
+      const options = { upsert: true };
+      const updateChocolate = {
+        $set: {
+          name: body.name,
+          country: body.country,
+          category: body.category,
+        } 
+      } 
+
+      const result = await chocolateCollection.updateOne(filter, updateChocolate, options)
+
+      res.send(result)
+
+
+    })
+
     app.delete("/chocolates/:id", async(req, res) => {
       const id = req.params.id;
       // console.log("hitting delete", id);
